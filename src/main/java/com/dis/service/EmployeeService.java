@@ -41,6 +41,7 @@ public class EmployeeService {
 						.annualSalary(employee.get().getAnnualSalary())
 						.status(employee.get().getStatus())
 						.email(employee.get().getEmail())
+						.ocupation(employee.get().getOcupation())
 						.gender(employee.get().getGender())
 						.build();
 
@@ -81,6 +82,7 @@ public class EmployeeService {
 					.salary(employee.getSalary())
 					.annualSalary(employee.getAnnualSalary())
 					.status(employee.getStatus())
+					.ocupation(employee.getOcupation())
 					.email(employee.getEmail())
 					.gender(employee.getGender())
 					.build();
