@@ -7,9 +7,12 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.dis.controller.response.Response;
+import com.dis.exceptions.EmployeeException;
+import com.dis.exceptions.ExceptionType;
+import com.dis.exceptions.GenericException;
 import com.dis.repository.EmployeeRepository;
-import com.dis.util.DefaultMessages;
-import lombok.Builder;
+import com.dis.util.messages.DefaultMessages;
+import com.dis.util.messages.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,30 +29,46 @@ public class EmployeeService {
 	public Response<EmployeeWithAnnualSalaryResponse> getEmployeeById(Integer id) {
 
 		Response<EmployeeWithAnnualSalaryResponse> response = new Response<EmployeeWithAnnualSalaryResponse>();
-		Optional<EmployeeEntity> employee = employeeRepository.findById(id);
+		try{
+			Optional<EmployeeEntity> employee = employeeRepository.findById(id);
 
-		if(employee.isPresent()) {
-			EmployeeWithAnnualSalaryResponse employeeResponse = EmployeeWithAnnualSalaryResponse.builder()
-					.id(employee.get().getId())
-					.name(employee.get().getName())
-					.surname(employee.get().getSurname())
-					.salary(employee.get().getSalary())
-					.annualSalary(employee.get().getAnnualSalary())
-					.status(employee.get().getStatus())
-					.email(employee.get().getEmail())
-					.gender(employee.get().getGender())
-					.build();
+			if(employee.isPresent()) {
+				EmployeeWithAnnualSalaryResponse employeeResponse = EmployeeWithAnnualSalaryResponse.builder()
+						.id(employee.get().getId())
+						.name(employee.get().getName())
+						.surname(employee.get().getSurname())
+						.salary(employee.get().getSalary())
+						.annualSalary(employee.get().getAnnualSalary())
+						.status(employee.get().getStatus())
+						.email(employee.get().getEmail())
+						.gender(employee.get().getGender())
+						.build();
 
-			response.setData(employeeResponse);
-			response.setMessage(DefaultMessages.SUCESS_REQUEST.getMessage());
-			return response;
+				response.setData(employeeResponse);
+				response.setMessage(DefaultMessages.SUCESS_REQUEST.getMessage());
+				response.setStatus(ResponseStatus.OK.getStatus());
+				return response;
+			}
+			else{
+				throw new EmployeeException(String.format("the employee with id %s was not found", id));
+			}
 		}
-		return null;
+		catch (EmployeeException e){
+			throw e;
+		}
+		catch (Exception e) {
+			log.error(String.format("Employee Service: ERROR type %s", ExceptionType.DIS_EXCEPTION.getType()), e);
+			throw new GenericException(e);
+		}
+
 	}
 
 	public Response<List<EmployeeWithAnnualSalaryResponse>> getAllEmployeers() {
 
 		Response<List<EmployeeWithAnnualSalaryResponse>> response = new Response<>();
+		try{
+
+
 		List<EmployeeEntity> employeeList = employeeRepository.findAll();
 
 		List<EmployeeWithAnnualSalaryResponse> listEmployeersResponse = new ArrayList<>();
@@ -72,7 +91,13 @@ public class EmployeeService {
 
 		response.setData(listEmployeersResponse);
 		response.setMessage(DefaultMessages.SUCESS_REQUEST.getMessage());
+		response.setStatus(ResponseStatus.OK.getStatus());
 		return response;
+		}
+		catch (Exception e) {
+			log.error(String.format("Employee Service: ERROR type %s", ExceptionType.DIS_EXCEPTION.getType()), e);
+			throw new GenericException(e);
+		}
 	}
 
 

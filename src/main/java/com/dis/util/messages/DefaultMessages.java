@@ -1,4 +1,4 @@
-package com.dis.util;
+package com.dis.util.messages;
 
 public enum DefaultMessages {
 
