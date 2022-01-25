@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Response<T> {
 
+	private String status;
 	private T data;
 	private String message;
 	private List<String> errors;

@@ -3,6 +3,7 @@ package com.dis.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Min;
 
 import com.dis.controller.response.EmployeeWithAnnualSalaryResponse;
 import com.dis.controller.response.Response;
@@ -22,22 +23,19 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	 @GetMapping(path = "/employee/{employee_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	 public ResponseEntity<Response<EmployeeWithAnnualSalaryResponse>> getEmployeerById(@PathVariable("employee_id") Integer emploeyeeId) {
-		 Response<EmployeeWithAnnualSalaryResponse> response = new Response<EmployeeWithAnnualSalaryResponse>();
-		 
+	 public ResponseEntity<Response<EmployeeWithAnnualSalaryResponse>> getEmployeerById(
+			 @PathVariable("employee_id") Integer emploeyeeId) {
 
-		
+		 Response<EmployeeWithAnnualSalaryResponse> response = employeeService.getEmployeeById(emploeyeeId);
+
 		 return ResponseEntity.ok(response);
 		 
 	 }
 	 
-	 @GetMapping(path = "/employees/", produces = MediaType.APPLICATION_JSON_VALUE)
+	 @GetMapping(path = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<Response<List<EmployeeWithAnnualSalaryResponse>>> getEmployeersList() {
 		 
-		 Response<List<EmployeeWithAnnualSalaryResponse>> response = new Response<List<EmployeeWithAnnualSalaryResponse>>();
-		 
-		 
-			
+		 Response<List<EmployeeWithAnnualSalaryResponse>> response = employeeService.getAllEmployeers();
 		 return ResponseEntity.ok(response);
 		 
 	 }
