@@ -23,10 +23,9 @@ public class EmployeeController {
 	
 	 @GetMapping(path = "/employee/{employee_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<Response<EmployeeWithAnnualSalaryResponse>> getEmployeerById(@PathVariable("employee_id") Integer emploeyeeId) {
-		 Response<EmployeeWithAnnualSalaryResponse> response = new Response<EmployeeWithAnnualSalaryResponse>();
-		 
 
-		
+		 Response<EmployeeWithAnnualSalaryResponse> response = employeeService.getEmployeeById(emploeyeeId);
+
 		 return ResponseEntity.ok(response);
 		 
 	 }

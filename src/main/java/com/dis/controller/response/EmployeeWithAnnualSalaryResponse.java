@@ -18,6 +18,7 @@ public class EmployeeWithAnnualSalaryResponse {
 	private String email;
 	private String ocupation;
 	private Double salary;
-	private String status;
+	private Double annualSalary;
+	private Boolean status;
 	
 }
