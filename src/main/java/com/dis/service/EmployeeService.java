@@ -8,12 +8,16 @@ import javax.annotation.Resource;
 
 import com.dis.controller.response.Response;
 import com.dis.repository.EmployeeRepository;
+import com.dis.util.DefaultMessages;
+import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.dis.model.EmployeeEntity;
 import com.dis.controller.response.EmployeeWithAnnualSalaryResponse;
 
 @Service
+@Slf4j
 public class EmployeeService {
 
 	@Resource
@@ -21,7 +25,7 @@ public class EmployeeService {
 	
 	public Response<EmployeeWithAnnualSalaryResponse> getEmployeeById(Integer id) {
 
-		Response<EmployeeWithAnnualSalaryResponse> response = new Response<>();
+		Response<EmployeeWithAnnualSalaryResponse> response = new Response<EmployeeWithAnnualSalaryResponse>();
 		Optional<EmployeeEntity> employee = employeeRepository.findById(id);
 
 		if(employee.isPresent()) {
@@ -37,11 +41,12 @@ public class EmployeeService {
 					.build();
 
 			response.setData(employeeResponse);
-
+			response.setMessage(DefaultMessages.SUCESS_REQUEST.getMessage());
+			return response;
 		}
 		return null;
 	}
-	
+
 	public Response<List<EmployeeWithAnnualSalaryResponse>> getAllEmployeers() {
 
 		Response<List<EmployeeWithAnnualSalaryResponse>> response = new Response<>();
@@ -66,6 +71,7 @@ public class EmployeeService {
 		}
 
 		response.setData(listEmployeersResponse);
+		response.setMessage(DefaultMessages.SUCESS_REQUEST.getMessage());
 		return response;
 	}
 

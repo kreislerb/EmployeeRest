@@ -30,13 +30,10 @@ public class EmployeeController {
 		 
 	 }
 	 
-	 @GetMapping(path = "/employees/", produces = MediaType.APPLICATION_JSON_VALUE)
+	 @GetMapping(path = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<Response<List<EmployeeWithAnnualSalaryResponse>>> getEmployeersList() {
 		 
-		 Response<List<EmployeeWithAnnualSalaryResponse>> response = new Response<List<EmployeeWithAnnualSalaryResponse>>();
-		 
-		 
-			
+		 Response<List<EmployeeWithAnnualSalaryResponse>> response = employeeService.getAllEmployeers();
 		 return ResponseEntity.ok(response);
 		 
 	 }
